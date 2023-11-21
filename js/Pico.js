@@ -13,19 +13,20 @@ p.PicoSprite = class extends p.Sprite {
       // 入れ子には await を必ずつけること
       const _topMethod = C.LoopForEver(async () => {
         await C.LoopRepeat(() => {
-          this.x += 1;
+          this.y += 1;
+          if (this.y > H) this.y = 0;
         }, 10);
-        await C.LoopRepeatUntil(
-          (_) => this.x > W,
-          () => {
-            this.x += 10;
-          },
+        await C.LoopRepeatUntil( _ => this.x > W, () => {
+            this.x += 20;
+          }
         )();
         this.x = 0;
         await C.LoopRepeat(10, async () => {
           this.rotation += 5;
           await C.LoopRepeat(10, () => {
+            this.x += 2;
             this.y += 2;
+            if (this.x > W) this.x = 0;
             if (this.y > H) this.y = 0;
           })();
         })();

@@ -1,5 +1,5 @@
 /*
- * Version 0.0.2 ( 2023/11/20 )
+ * Version 0.0.2 ( 2023/11/21)
  * 現在、サポートする繰り返し処理は次のとおりです。
  * LoopForEver(ずっと繰り返す)
  * LoopRepeat( 〇回繰り返す )
@@ -56,8 +56,8 @@ p5.prototype.registerMethod("init", function () {
             for (;;) {
               await _f();
               await p.Until(
-                (_) => mr.waitCancel === true,
-                () => (mr.waitCancel = false),
+                _ => mr.waitCancel === true,
+                () => {mr.waitCancel = false}
               );
             }
           };
@@ -73,8 +73,8 @@ p5.prototype.registerMethod("init", function () {
             for (let i = 0; i < _count; i++) {
               await _f();
               await p.Until(
-                (_) => mr.waitCancel === true,
-                () => (mr.waitCancel = false),
+                _ => mr.waitCancel === true,
+                () => {mr.waitCancel = false}
               );
             }
           };
@@ -91,8 +91,8 @@ p5.prototype.registerMethod("init", function () {
               if (_conditionalFunction()) break;
               await _f();
               await p.Until(
-                (_) => mr.waitCancel === true,
-                () => (mr.waitCancel = false),
+                _ => mr.waitCancel === true,
+                () => {mr.waitCancel = false}
               );
             }
           };
