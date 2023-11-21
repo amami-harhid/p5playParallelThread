@@ -18,9 +18,10 @@ p.PicoSprite = class extends p.Sprite {
         }, 10);
         await C.LoopRepeatUntil( _ => this.x > W, () => {
             this.x += 20;
+            if (this.x > W) this.x = 0;
           }
         )();
-        this.x = 0;
+        //this.x = 0;
         await C.LoopRepeat(10, async () => {
           this.rotation += 5;
           await C.LoopRepeat(10, () => {
@@ -28,14 +29,17 @@ p.PicoSprite = class extends p.Sprite {
             this.y += 2;
             if (this.x > W) this.x = 0;
             if (this.y > H) this.y = 0;
-          })();
+          });
         })();
       });
+      this.y = H/2;
       setTimeout(_topMethod, 1000);
     }
     draw() {
       super.draw();
       this.mReg.setWaitCancel();
+      //this.x += 20;
+      //if( this.x > W) this.x = 0;
     }
   };
   
