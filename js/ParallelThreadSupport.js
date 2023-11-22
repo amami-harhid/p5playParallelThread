@@ -49,23 +49,7 @@ p5.prototype.registerMethod("init", function () {
       constructor(_methodRegister) {
         this.mr = _methodRegister;
       }
-      LoopForEver(_f) {
-        const mr = this.mr;
-        if (!mr.isRegisted(_f)) {
-          const wrapper = async () => {
-            for (;;) {
-              await _f();
-              await p.Until(
-                _ => mr.waitCancel === true,
-                () => {mr.waitCancel = false}
-              );
-            }
-          };
-          mr.regist(_f, wrapper);
-        }
-        const wrapper = mr.getWrapMethod(_f);
-        return wrapper;
-      }
+
       LoopRepeat(_count, _f) {
         const mr = this.mr;
         if (!mr.isRegisted(_f)) {
@@ -83,7 +67,7 @@ p5.prototype.registerMethod("init", function () {
         const wrapper = mr.getWrapMethod(_f);
         return wrapper;
       }
-      LoopRepeatUntil(_conditionalFunction, _f) {
+      LoopUntil(_conditionalFunction, _f) {
         const mr = this.mr;
         if (!mr.isRegisted(_f)) {
           const wrapper = async () => {
@@ -100,6 +84,26 @@ p5.prototype.registerMethod("init", function () {
         }
         const wrapper = mr.getWrapMethod(_f);
         return wrapper;
+      }
+      LoopWhile(_conditionalFunction, _f) {
+        const mr = this.mr;
+        if (!mr.isRegisted(_f)) {
+          const wrapper = async () => {
+            while (_conditionalFunction()) {
+              await _f();
+              await p.Until(
+                _ => mr.waitCancel === true,
+                () => {mr.waitCancel = false}
+              );
+            }
+          };
+          mr.regist(_f, wrapper);
+        }
+        const wrapper = mr.getWrapMethod(_f);
+        return wrapper;
+      }
+      LoopForEver(_f) {
+        return this.LoopWhile(_=>true, _f);
       }
     };
   });
